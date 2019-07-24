@@ -56,7 +56,11 @@ public class Program {
 	            	
 	            	for (String mail : mainWindow.mails) {
 		            	try {
-							mails.add(new InternetAddress(mail));
+		            		InternetAddress address = new InternetAddress(mail);
+		            		
+		            		address.validate();
+		            		
+							mails.add(address);
 						} catch (AddressException e1) {
 							e1.printStackTrace();
 							continue;
