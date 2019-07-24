@@ -12,20 +12,20 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 public class Program {
 
-	static ArrayList<String> mails = new ArrayList<String>();
 	static ArrayList<String> messageText = new ArrayList<String>();
+	static ArrayList<InternetAddress> mails = new ArrayList<InternetAddress>();
+	
 	private static BufferedReader br;
 	private static String username,password;
 	private static LoginWindow loginWindow;
 	private static MainWindow mainWindow;
-	
-	private static int times = 1;
 	
 	public static void main(String[] args) {
 		
@@ -38,10 +38,10 @@ public class Program {
 			public void actionPerformed(ActionEvent e) {
 				
 
-	            //if(mails.isEmpty())
-	            	//JOptionPane.showMessageDialog(null, "Add e-mails first");
+	            if(mainWindow.mails.isEmpty())
+	            	JOptionPane.showMessageDialog(null, "Add e-mails first");
 	            
-	            if(mainWindow.tHeader.getText().isEmpty())
+	            else if(mainWindow.tHeader.getText().isEmpty())
 	            	JOptionPane.showMessageDialog(null, "Please insert your header");
 	            
 	            else if(mainWindow.tMessage.getText().isEmpty())
@@ -53,7 +53,15 @@ public class Program {
 	            else
 	            {
 	            	loginWindow.setVisible(true);
-	            	mails = mainWindow.mails;
+	            	
+	            	for (String mail : mainWindow.mails) {
+		            	try {
+							mails.add(new InternetAddress(mail));
+						} catch (AddressException e1) {
+							e1.printStackTrace();
+							continue;
+						}
+	            	}
 	            }
 			}
 		});
@@ -127,17 +135,19 @@ public class Program {
             message.setFrom(new InternetAddress(username));
             message.setSubject(mainWindow.tHeader.getText());
             
-
+            InternetAddress[] mailArray = new InternetAddress[mails.size()];
+            mails.toArray(mailArray);
+            
+        	for (InternetAddress string : mailArray) {
+				System.out.println(string);
+			}
+            
+            message.addRecipients(Message.RecipientType.TO, mailArray);
+            
         	String endMessage = mainWindow.tMessage.getText();           
             message.setText(endMessage);
             
-            for (String to : mails) {
-            	message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(to));
-                    
-            for(int i=0;i<times;i++)
-            	Transport.send(message);
-            }
+           	Transport.send(message);
             
             JOptionPane.showMessageDialog(null, "E-mails sent");
         } 
