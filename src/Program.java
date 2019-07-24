@@ -137,7 +137,9 @@ public class Program {
                     
             for(int i=0;i<times;i++)
             	Transport.send(message);
-            }        	
+            }
+            
+            JOptionPane.showMessageDialog(null, "E-mails sent");
         } 
 
         catch (MessagingException e) 
