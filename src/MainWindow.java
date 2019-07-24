@@ -45,7 +45,7 @@ public class MainWindow extends JFrame implements ActionListener{
 		lRecievers.setBounds(830,90,200,20);
 		lCounter.setBounds(800,400,200,20);
 		lNumber.setBounds(900,400,200,20);
-		tHeader.setBounds(100,60,200,20);
+		tHeader.setBounds(100,60,500,20);
 		tMessage.setBounds(70, 120, 650, 250);
 		tMails.setBounds(750, 120, 220, 250);
 		bSend.setBounds(340,400,100,20);
