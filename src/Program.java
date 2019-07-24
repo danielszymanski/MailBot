@@ -144,8 +144,8 @@ public class Program {
 
         catch (MessagingException e) 
         {
-        	JOptionPane.showMessageDialog(null, "Cannot connect to your e-mail");
-            System.err.println(e.getMessage());
+        	JOptionPane.showMessageDialog(null, e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 }
